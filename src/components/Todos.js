@@ -19,9 +19,9 @@ const Todos = () => {
     }
   }, [todos]);
 
-  const clickAddTodo = (text) => {
+  const addTodo = (text) => {
+    setTodoInputValue("");
     setTodos((state) => {
-      setTodoInputValue("");
       return [...state, { id: new Date().getTime(), text, isDone: false }];
     });
   };
@@ -32,12 +32,10 @@ const Todos = () => {
     });
   };
 
-  const finishTodo = (id) => {
+  const finishTodo = (id, isDone) => {
     setTodos((state) => {
       const newTodos = [...state];
-      newTodos.find((todo) => todo.id === id).isDone = !newTodos.find(
-        (todo) => todo.id === id
-      ).isDone;
+      newTodos.find((todo) => todo.id === id).isDone = !isDone;
       return newTodos;
     });
   };
@@ -49,14 +47,14 @@ const Todos = () => {
         value={todoInputValue}
         onChange={(e) => setTodoInputValue(e.target.value)}
       />
-      <button onClick={() => clickAddTodo(todoInputValue)}>+</button>
+      <button onClick={() => addTodo(todoInputValue)}>+</button>
       <ul>
         {todos.map(({ id, text, isDone }) => {
           return (
             <li key={id}>
               <input
                 type="checkbox"
-                onChange={() => finishTodo(id)}
+                onChange={() => finishTodo(id, isDone)}
                 checked={isDone}
               />
               {text}
