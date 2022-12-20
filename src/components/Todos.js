@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import TodoForm from "./TodoForm";
+import styled from "styled-components";
+import TodoList from "./TodoList";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
@@ -42,24 +45,17 @@ const Todos = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        value={todoInputValue}
-        onChange={(e) => setTodoInputValue(e.target.value)}
-      />
-      <button onClick={() => addTodo(todoInputValue)}>+</button>
+      <TodoForm addTodo={addTodo} />
       <ul>
         {todos.map(({ id, text, isDone }) => {
           return (
-            <li key={id}>
-              <input
-                type="checkbox"
-                onChange={() => finishTodo(id, isDone)}
-                checked={isDone}
-              />
-              {text}
-              <button onClick={() => deleteTodo(id)}>X</button>
-            </li>
+            <TodoList
+              id={id}
+              text={text}
+              isDone={isDone}
+              finishTodo={finishTodo}
+              deleteTodo={deleteTodo}
+            />
           );
         })}
       </ul>
