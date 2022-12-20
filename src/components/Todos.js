@@ -50,6 +50,7 @@ const Todos = () => {
         {todos.map(({ id, text, isDone }) => {
           return (
             <TodoList
+              key={id}
               id={id}
               text={text}
               isDone={isDone}

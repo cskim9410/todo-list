@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const TodoList = ({ id, text, isDone, finishTodo, deleteTodo }) => {
   return (
-    <Li key={id}>
+    <Li>
       <CheckBox
         type="checkbox"
         onChange={() => finishTodo(id, isDone)}
