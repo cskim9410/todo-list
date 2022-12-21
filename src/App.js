@@ -16,6 +16,6 @@ export default App;
 
 const Container = styled.div`
   margin: 0 auto;
-  width: 80vw;
+  width: 60vw;
   text-align: center;
 `;

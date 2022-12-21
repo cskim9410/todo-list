@@ -45,8 +45,7 @@ const Todos = () => {
 
   return (
     <div>
-      <TodoForm addTodo={addTodo} />
-      <ul>
+      <Ul>
         {todos.map(({ id, text, isDone }) => {
           return (
             <TodoList
@@ -59,9 +58,17 @@ const Todos = () => {
             />
           );
         })}
-      </ul>
+      </Ul>
+      {todos.length === 0 && <p>추가해주세요</p>}
+      <TodoForm addTodo={addTodo} />
     </div>
   );
 };
 
 export default Todos;
+
+const Ul = styled.ul`
+  margin-top: 30px;
+  height: 70vh;
+  overflow-y: auto;
+`;

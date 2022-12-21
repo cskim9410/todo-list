@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
+import { BsPlusCircle } from "react-icons/bs";
 
 const TodoForm = ({ addTodo }) => {
   const [valid, setValid] = useState(true);
@@ -26,7 +27,9 @@ const TodoForm = ({ addTodo }) => {
         ref={inputRef}
         placeholder="Write your Todo!"
       />
-      <button onClick={clickAddButton}>+</button>
+      <Button onClick={clickAddButton}>
+        <BsPlusCircle size="40" />
+      </Button>
     </div>
   );
 };
@@ -37,4 +40,14 @@ const Input = styled.input`
   width: 100%;
   height: 30px;
   border-color: ${({ valid }) => (valid ? "black" : "red")};
+`;
+
+const Button = styled.button`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: lightgrey;
+  &:hover {
+    color: #2d92eb;
+  }
 `;
