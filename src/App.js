@@ -31,4 +31,7 @@ const Container = styled.div`
   margin: 0 auto;
   width: 60vw;
   text-align: center;
+  @media (max-width: 600px) {
+    width: 80vw;
+  }
 `;

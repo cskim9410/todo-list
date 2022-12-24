@@ -58,8 +58,11 @@ const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
             <Li key={Math.random()} onClick={() => changeDate(list.date)}>
               <p>{list.date}</p>
               <div>
-                <p>완료{list.doneCount}개</p>
-                <p>미완료{list.notDoneCount}개</p>
+                <p>완료 {list.doneCount}개</p>
+                <p>
+                  미완료{" "}
+                  <Span count={list.notDoneCount}>{list.notDoneCount}</Span>개
+                </p>
               </div>
             </Li>
           ))}
@@ -76,9 +79,10 @@ const Container = styled.div`
   font-size: 14px;
   width: 20%;
   max-width: 300px;
+  min-width: 200px;
   background-color: white;
   position: absolute;
-  top: 10%;
+  top: 70px;
   right: 20%;
   border-radius: 10px;
   z-index: 999;
@@ -89,6 +93,9 @@ const Container = styled.div`
   opacity: ${({ open }) => (open ? 1 : 0)};
   transition: all 0.3s ease-in-out;
   overflow: hidden;
+  @media (max-width: 600px) {
+    right: 10%;
+  }
 `;
 
 const Div = styled.div`
@@ -121,6 +128,20 @@ const Button = styled.button`
 const Ul = styled.ul`
   max-height: 250px;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
 `;
 
 const Li = styled.li`
@@ -136,4 +157,9 @@ const Li = styled.li`
   &:active {
     transform: scale(0.95);
   }
+`;
+
+const Span = styled.span`
+  color: ${({ count }) => (count > 0 ? "red" : "black")};
+  font-size: ${({ count }) => (count > 0 ? "18px" : "14px")};
 `;
