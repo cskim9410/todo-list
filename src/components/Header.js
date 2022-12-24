@@ -15,7 +15,12 @@ const Header = ({ selectedDate, changeDate }) => {
       <Button onClick={clickHandler}>
         <CiBoxList size="40" />
       </Button>
-      <ToggleList open={open} clickHandler={clickHandler} />
+      <ToggleList
+        open={open}
+        clickHandler={clickHandler}
+        selectedDate={selectedDate}
+        changeDate={changeDate}
+      />
     </HeaderContainer>
   );
 };

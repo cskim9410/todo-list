@@ -1,7 +1,25 @@
 import styled from "styled-components";
 import { VscChromeClose, VscClose } from "react-icons/vsc";
+import { useContext } from "react";
+import { todoCtx } from "./../store/ContextProvider";
 
-const ToggleList = ({ open, clickHandler }) => {
+const ToggleList = ({ open, clickHandler, changeDate }) => {
+  const { todos } = useContext(todoCtx);
+  const lists = todos
+    .reduce((acc, todo) => {
+      const duplIndex = acc.findIndex((accTodo) => accTodo.date === todo.date);
+      if (duplIndex >= 0) {
+        acc[duplIndex].count += 1;
+        return acc;
+      }
+      acc.push({
+        date: todo.date,
+        count: 1,
+      });
+      console.log(acc);
+      return acc;
+    }, [])
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
   return (
     <Container open={open}>
       <Div>
@@ -12,7 +30,16 @@ const ToggleList = ({ open, clickHandler }) => {
           </Button>
         </Bar>
       </Div>
-      <Div>sdafasdf</Div>
+      <Div>
+        <Ul>
+          {lists.map((list) => (
+            <Li onClick={() => changeDate(list.date)}>
+              <p>{list.date}</p>
+              <p>{list.count}개</p>
+            </Li>
+          ))}
+        </Ul>
+      </Div>
     </Container>
   );
 };
@@ -63,5 +90,23 @@ const Button = styled.button`
   color: lightgray;
   &:hover {
     color: black;
+  }
+`;
+
+const Ul = styled.ul`
+  max-height: 250px;
+  overflow-y: auto;
+`;
+
+const Li = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+  }
+  &:active {
+    transform: scale(0.95);
   }
 `;
