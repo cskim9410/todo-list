@@ -1,16 +1,17 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
 import TodoForm from "./TodoForm";
 import styled from "styled-components";
 import TodoList from "./TodoList";
+import { todoCtx } from "./../store/ContextProvider";
 
 const Todos = ({ selectedDate, changeDate }) => {
-  const [todos, setTodos] = useState([]);
   const isMounted = useRef(false);
+  const { todos, initTodo } = useContext(todoCtx);
 
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
     if (!savedTodos) return;
-    setTodos(savedTodos);
+    initTodo(savedTodos);
   }, []);
 
   useEffect(() => {
@@ -20,34 +21,6 @@ const Todos = ({ selectedDate, changeDate }) => {
       isMounted.current = true;
     }
   }, [todos]);
-
-  const addTodo = (text) => {
-    setTodos((state) => {
-      return [
-        ...state,
-        {
-          id: new Date().getTime(),
-          date: `${selectedDate}`,
-          text,
-          isDone: false,
-        },
-      ];
-    });
-  };
-
-  const deleteTodo = (id) => {
-    setTodos((state) => {
-      return state.filter((todo) => todo.id !== id);
-    });
-  };
-
-  const finishTodo = (id, isDone) => {
-    setTodos((state) => {
-      const newTodos = [...state];
-      newTodos.find((todo) => todo.id === id).isDone = !isDone;
-      return newTodos;
-    });
-  };
 
   return (
     <div>
@@ -62,20 +35,11 @@ const Todos = ({ selectedDate, changeDate }) => {
         {todos
           .filter(({ date }) => date === selectedDate)
           .map(({ id, text, isDone }) => {
-            return (
-              <TodoList
-                key={id}
-                id={id}
-                text={text}
-                isDone={isDone}
-                finishTodo={finishTodo}
-                deleteTodo={deleteTodo}
-              />
-            );
+            return <TodoList key={id} id={id} text={text} isDone={isDone} />;
           })}
         {todos.length === 0 && <li>추가해주세요</li>}
       </Ul>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm selectedDate={selectedDate} />
     </div>
   );
 };

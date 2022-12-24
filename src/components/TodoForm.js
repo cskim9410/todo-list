@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { BsPlusCircle } from "react-icons/bs";
+import { todoCtx } from "./../store/ContextProvider";
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = ({ selectedDate }) => {
   const [valid, setValid] = useState(true);
+  const { addTodo } = useContext(todoCtx);
 
   const checkValidation = (text) => {
     return text.length === 0 ? false : true;
@@ -15,7 +17,7 @@ const TodoForm = ({ addTodo }) => {
       setValid(false);
       return;
     }
-    addTodo(inputRef.current.value);
+    addTodo(inputRef.current.value, selectedDate);
     inputRef.current.value = "";
     setValid(true);
   };

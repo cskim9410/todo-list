@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Todos from "./components/Todos";
+import ContextProvider from "./store/ContextProvider";
 
 function App() {
   const date = new Date();
@@ -15,10 +16,12 @@ function App() {
     setSelectedDate(date);
   };
   return (
-    <Container>
-      <Header selectedDate={selectedDate} changeDate={changeDate} />
-      <Todos selectedDate={selectedDate} changeDate={changeDate} />
-    </Container>
+    <ContextProvider>
+      <Container>
+        <Header selectedDate={selectedDate} changeDate={changeDate} />
+        <Todos selectedDate={selectedDate} changeDate={changeDate} />
+      </Container>
+    </ContextProvider>
   );
 }
 

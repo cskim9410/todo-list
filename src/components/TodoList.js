@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { BsTrashFill } from "react-icons/bs";
+import { useContext } from "react";
+import { todoCtx } from "./../store/ContextProvider";
 
-const TodoList = ({ id, text, isDone, finishTodo, deleteTodo }) => {
+const TodoList = ({ id, text, isDone }) => {
+  const { finishTodo, deleteTodo } = useContext(todoCtx);
   return (
     <Li>
       <div>

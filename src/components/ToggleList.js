@@ -1,9 +1,18 @@
 import styled from "styled-components";
+import { VscChromeClose, VscClose } from "react-icons/vsc";
 
-const ToggleList = ({ open }) => {
+const ToggleList = ({ open, clickHandler }) => {
   return (
     <Container open={open}>
-      <Div>asdfasdf</Div>
+      <Div>
+        <Bar>
+          <span>ㅇㅇㅇㅇ</span>
+          <Button onClick={clickHandler}>
+            <VscClose size={24} />
+          </Button>
+        </Bar>
+      </Div>
+      <Div>sdafasdf</Div>
     </Container>
   );
 };
@@ -34,4 +43,25 @@ const Div = styled.div`
   padding: 5px 0 5px 0;
   width: 100%;
   border-bottom: 1px solid lightgray;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  padding: 5px 10px 5px 10px;
+  align-items: center;
+`;
+
+const Bar = styled(Flex)`
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: lightgray;
+  &:hover {
+    color: black;
+  }
 `;
