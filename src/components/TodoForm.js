@@ -9,7 +9,8 @@ const TodoForm = ({ addTodo }) => {
     return text.length === 0 ? false : true;
   };
 
-  const clickAddButton = () => {
+  const clickAddButton = (e) => {
+    e.preventDefault();
     if (!checkValidation(inputRef.current.value)) {
       setValid(false);
       return;
@@ -20,7 +21,7 @@ const TodoForm = ({ addTodo }) => {
   };
   const inputRef = useRef();
   return (
-    <div>
+    <Form>
       <Input
         valid={valid}
         type="text"
@@ -30,7 +31,7 @@ const TodoForm = ({ addTodo }) => {
       <Button onClick={clickAddButton}>
         <BsPlusCircle size="40" />
       </Button>
-    </div>
+    </Form>
   );
 };
 
@@ -40,6 +41,9 @@ const Input = styled.input`
   width: 100%;
   height: 30px;
   border-color: ${({ valid }) => (valid ? "black" : "red")};
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 20px;
 `;
 
 const Button = styled.button`
@@ -51,3 +55,5 @@ const Button = styled.button`
     color: #2d92eb;
   }
 `;
+
+const Form = styled.form``;
