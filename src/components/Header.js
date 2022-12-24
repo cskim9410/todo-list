@@ -5,6 +5,7 @@ import ToggleList from "./ToggleList";
 
 const Header = ({ selectedDate, changeDate }) => {
   const [open, setOpen] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
 
   const clickHandler = () => {
     setOpen(!open);
@@ -14,12 +15,14 @@ const Header = ({ selectedDate, changeDate }) => {
       <h1>투두리스트</h1>
       <Button onClick={clickHandler}>
         <CiBoxList size="40" />
+        {showBadge && <Badge />}
       </Button>
       <ToggleList
         open={open}
         clickHandler={clickHandler}
         selectedDate={selectedDate}
         changeDate={changeDate}
+        setShowBadge={setShowBadge}
       />
     </HeaderContainer>
   );
@@ -43,4 +46,15 @@ const Button = styled.button`
   &:hover {
     color: black;
   }
+`;
+const Badge = styled.div`
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: 2.5%;
+  right: 21%;
+  border: 1px black solid;
+  opacity: 0.5;
 `;

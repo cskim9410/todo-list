@@ -1,25 +1,47 @@
 import styled from "styled-components";
-import { VscChromeClose, VscClose } from "react-icons/vsc";
-import { useContext } from "react";
+import { VscClose } from "react-icons/vsc";
+import { useContext, useState, useEffect } from "react";
 import { todoCtx } from "./../store/ContextProvider";
 
-const ToggleList = ({ open, clickHandler, changeDate }) => {
+const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
   const { todos } = useContext(todoCtx);
-  const lists = todos
-    .reduce((acc, todo) => {
-      const duplIndex = acc.findIndex((accTodo) => accTodo.date === todo.date);
-      if (duplIndex >= 0) {
-        acc[duplIndex].count += 1;
-        return acc;
-      }
-      acc.push({
-        date: todo.date,
-        count: 1,
-      });
-      console.log(acc);
-      return acc;
-    }, [])
-    .sort((a, b) => new Date(a.date) - new Date(b.date));
+  const [lists, setLists] = useState([]);
+
+  useEffect(() => {
+    setLists(() => {
+      const lists = todos
+        .reduce((acc, todo) => {
+          const duplIndex = acc.findIndex(
+            (accTodo) => accTodo.date === todo.date
+          );
+          if (duplIndex >= 0) {
+            if (todo.isDone) {
+              acc[duplIndex].doneCount += 1;
+              return acc;
+            } else {
+              acc[duplIndex].notDoneCount += 1;
+              return acc;
+            }
+          }
+          acc.push({
+            date: todo.date,
+            doneCount: todo.isDone ? 1 : 0,
+            notDoneCount: todo.isDone ? 0 : 1,
+          });
+          return acc;
+        }, [])
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+      return lists;
+    });
+  }, [todos]);
+
+  useEffect(() => {
+    setShowBadge(false);
+    if (lists.filter((list) => list.notDoneCount > 0).length > 0) {
+      setShowBadge(true);
+    }
+  }, [lists]);
+
   return (
     <Container open={open}>
       <Div>
@@ -33,9 +55,12 @@ const ToggleList = ({ open, clickHandler, changeDate }) => {
       <Div>
         <Ul>
           {lists.map((list) => (
-            <Li onClick={() => changeDate(list.date)}>
+            <Li key={Math.random()} onClick={() => changeDate(list.date)}>
               <p>{list.date}</p>
-              <p>{list.count}개</p>
+              <div>
+                <p>완료{list.doneCount}개</p>
+                <p>미완료{list.notDoneCount}개</p>
+              </div>
             </Li>
           ))}
         </Ul>
@@ -101,7 +126,9 @@ const Ul = styled.ul`
 const Li = styled.li`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  align-items: center;
+  padding: 0 20px 0 20px;
+  border-bottom: 1px solid lightgray;
   cursor: pointer;
   &:hover {
     background-color: lightgray;
