@@ -24,7 +24,7 @@ const Todos = ({ selectedDate, changeDate }) => {
 
   return (
     <div>
-      <input
+      <Input
         type="date"
         value={selectedDate}
         onChange={(e) => {
@@ -64,4 +64,12 @@ const Ul = styled.ul`
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px white;
   }
+`;
+
+const Input = styled.input`
+  font-weight: bold;
+  height: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
 `;
