@@ -1,70 +1,75 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect, useContext } from "react";
+import TodoForm from "./TodoForm";
+import styled from "styled-components";
+import TodoList from "./TodoList";
+import { todoCtx } from "./../store/ContextProvider";
 
-const Todos = () => {
-  const [todos, setTodos] = useState([]);
-  const [todoInputValue, setTodoInputValue] = useState("");
+const Todos = ({ selectedDate, changeDate }) => {
   const isMounted = useRef(false);
+  const { todos, initTodo } = useContext(todoCtx);
 
   useEffect(() => {
     const savedTodos = JSON.parse(localStorage.getItem("todos"));
     if (!savedTodos) return;
-    setTodos(savedTodos);
+    initTodo(savedTodos);
   }, []);
 
   useEffect(() => {
-    if (isMounted) {
+    if (isMounted.current) {
       localStorage.setItem("todos", JSON.stringify(todos));
     } else {
-      isMounted = true;
+      isMounted.current = true;
     }
   }, [todos]);
 
-  const addTodo = (text) => {
-    setTodoInputValue("");
-    setTodos((state) => {
-      return [...state, { id: new Date().getTime(), text, isDone: false }];
-    });
-  };
-
-  const deleteTodo = (id) => {
-    setTodos((state) => {
-      return state.filter((todo) => todo.id !== id);
-    });
-  };
-
-  const finishTodo = (id, isDone) => {
-    setTodos((state) => {
-      const newTodos = [...state];
-      newTodos.find((todo) => todo.id === id).isDone = !isDone;
-      return newTodos;
-    });
-  };
-
   return (
     <div>
-      <input
-        type="text"
-        value={todoInputValue}
-        onChange={(e) => setTodoInputValue(e.target.value)}
+      <Input
+        type="date"
+        value={selectedDate}
+        onChange={(e) => {
+          changeDate(e.target.value);
+        }}
       />
-      <button onClick={() => addTodo(todoInputValue)}>+</button>
-      <ul>
-        {todos.map(({ id, text, isDone }) => {
-          return (
-            <li key={id}>
-              <input
-                type="checkbox"
-                onChange={() => finishTodo(id, isDone)}
-                checked={isDone}
-              />
-              {text}
-              <button onClick={() => deleteTodo(id)}>X</button>
-            </li>
-          );
-        })}
-      </ul>
+      <Ul>
+        {todos
+          .filter(({ date }) => date === selectedDate)
+          .map(({ id, text, isDone }) => {
+            return <TodoList key={id} id={id} text={text} isDone={isDone} />;
+          })}
+        {todos.length === 0 && <li>추가해주세요</li>}
+      </Ul>
+      <TodoForm selectedDate={selectedDate} />
     </div>
   );
 };
 
 export default Todos;
+
+const Ul = styled.ul`
+  margin-top: 30px;
+  height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+  }
+`;
+
+const Input = styled.input`
+  font-weight: bold;
+  height: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+`;
