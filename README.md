@@ -1,19 +1,21 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
 # todolist 앱
 
-# 실행
+날짜별 할 일 체크리스트 관리 앱
 
-### `npm start`
+<br/>
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 데모 보기
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> https://cskim9410.github.io/todo-list
+
+<br>
+
+# 프로젝트 기간
+
+- 2022-12-13 ~ 2022-12-25
+  <br/>
+
+# 실행 방법
+
+> `npm start` >
