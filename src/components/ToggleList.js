@@ -46,7 +46,7 @@ const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
     <Container open={open}>
       <Div>
         <Bar>
-          <span>ㅇㅇㅇㅇ</span>
+          <span>내 할일</span>
           <Button onClick={clickHandler}>
             <VscClose size={24} />
           </Button>
