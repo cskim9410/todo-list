@@ -39,6 +39,8 @@ const HeaderContainer = styled.div`
 `;
 
 const Button = styled.button`
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -48,13 +50,12 @@ const Button = styled.button`
   }
 `;
 const Badge = styled.div`
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background-color: red;
-  position: absolute;
-  top: 2.5%;
-  right: 21%;
+  position: relative;
+  top: -84%;
+  left: 70%;
   border: 1px black solid;
-  opacity: 0.5;
 `;

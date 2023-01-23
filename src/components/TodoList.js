@@ -27,8 +27,9 @@ export default TodoList;
 const Li = styled.li`
   border-bottom: 1px solid lightgray;
   width: 100%;
-  margin: 0 auto;
+  height: 50px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   + li {
     margin-top: 20px;
@@ -61,5 +62,8 @@ const Button = styled.button`
   color: lightgrey;
   &:hover {
     color: red;
+  }
+  @media (max-width: 780px) {
+    display: block;
   }
 `;

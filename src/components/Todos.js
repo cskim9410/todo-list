@@ -67,9 +67,9 @@ const Ul = styled.ul`
 `;
 
 const Input = styled.input`
+  margin-top: 10px;
   font-weight: bold;
   height: 15px;
   padding: 10px;
-  border-radius: 4px;
-  cursor: pointer;
+  border-radius: 20px;
 `;
