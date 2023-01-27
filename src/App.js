@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
-import Todos from "./components/Todos";
+import TodoList from "./components/TodoList";
 import ContextProvider from "./store/ContextProvider";
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
     <ContextProvider>
       <Container>
         <Header selectedDate={selectedDate} changeDate={changeDate} />
-        <Todos selectedDate={selectedDate} changeDate={changeDate} />
+        <TodoList selectedDate={selectedDate} changeDate={changeDate} />
       </Container>
     </ContextProvider>
   );

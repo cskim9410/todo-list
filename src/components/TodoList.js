@@ -1,69 +1,75 @@
+import { useRef, useEffect, useContext } from "react";
+import TodoForm from "./TodoForm";
 import styled from "styled-components";
-import { BsTrashFill } from "react-icons/bs";
-import { useContext } from "react";
-import { todoCtx } from "./../store/ContextProvider";
+import TodoItem from "./TodoItem";
+import { todoCtx } from "../store/ContextProvider";
 
-const TodoList = ({ id, text, isDone }) => {
-  const { finishTodo, deleteTodo } = useContext(todoCtx);
+const TodoList = ({ selectedDate, changeDate }) => {
+  const isMounted = useRef(false);
+  const { todos, initTodo } = useContext(todoCtx);
+
+  useEffect(() => {
+    const savedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (!savedTodos) return;
+    initTodo(savedTodos);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    } else {
+      isMounted.current = true;
+    }
+  }, [todos]);
+
   return (
-    <Li>
-      <div>
-        <CheckBox
-          type="checkbox"
-          onChange={() => finishTodo(id, isDone)}
-          checked={isDone}
-        />
-        <Span isDone={isDone}>{text}</Span>
-      </div>
-      <Button onClick={() => deleteTodo(id)}>
-        <BsTrashFill size={24} />
-      </Button>
-    </Li>
+    <div>
+      <Input
+        type="date"
+        value={selectedDate}
+        onChange={(e) => {
+          changeDate(e.target.value);
+        }}
+      />
+      <Ul>
+        {todos
+          .filter(({ date }) => date === selectedDate)
+          .map(({ id, text, isDone }) => {
+            return <TodoItem key={id} id={id} text={text} isDone={isDone} />;
+          })}
+        {todos.length === 0 && <li>추가해주세요</li>}
+      </Ul>
+      <TodoForm selectedDate={selectedDate} />
+    </div>
   );
 };
 
 export default TodoList;
 
-const Li = styled.li`
-  border-bottom: 1px solid lightgray;
-  width: 100%;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  + li {
-    margin-top: 20px;
+const Ul = styled.ul`
+  margin-top: 30px;
+  height: 60vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
   }
-  &:hover {
-    button {
-      display: block;
-    }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
   }
-`;
-
-const Span = styled.span`
-  text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
-  color: ${({ isDone }) => (isDone ? "lightgrey" : "black")};
-`;
-
-const CheckBox = styled.input`
-  cursor: pointer;
-  transform: scale(1.5);
-  + span {
-    margin-left: 30px;
+  &::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
   }
 `;
 
-const Button = styled.button`
-  display: none;
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  color: lightgrey;
-  &:hover {
-    color: red;
-  }
-  @media (max-width: 780px) {
-    display: block;
-  }
+const Input = styled.input`
+  margin-top: 10px;
+  font-weight: bold;
+  height: 15px;
+  padding: 10px;
+  border-radius: 20px;
 `;
