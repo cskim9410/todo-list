@@ -3,7 +3,13 @@ import { BsTrashFill } from "react-icons/bs";
 import { useContext } from "react";
 import { todoCtx } from "../store/ContextProvider";
 
-const TodoItem = ({ id, text, isDone }) => {
+interface TodoItemProps {
+  id: number;
+  text: string;
+  isDone: boolean;
+}
+
+const TodoItem = ({ id, text, isDone }: TodoItemProps) => {
   const { finishTodo, deleteTodo } = useContext(todoCtx);
   return (
     <Li>
@@ -41,7 +47,7 @@ const Li = styled.li`
   }
 `;
 
-const Span = styled.span`
+const Span = styled.span<{ isDone: boolean }>`
   text-decoration: ${({ isDone }) => (isDone ? "line-through" : "none")};
   color: ${({ isDone }) => (isDone ? "lightgrey" : "black")};
 `;

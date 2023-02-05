@@ -8,7 +8,7 @@ import ContextProvider from "./store/ContextProvider";
 function App() {
   const [selectedDate, setSelectedDate] = useState(``);
 
-  const changeDate = (date) => {
+  const changeDate = (date: string) => {
     setSelectedDate(date);
   };
 

@@ -3,7 +3,12 @@ import { CiBoxList } from "react-icons/ci";
 import { useState } from "react";
 import ToggleList from "./ToggleList";
 
-const Header = ({ selectedDate, changeDate }) => {
+interface HeaderProps {
+  selectedDate: string;
+  changeDate: (date: string) => void;
+}
+
+const Header = ({ selectedDate, changeDate }: HeaderProps) => {
   const [open, setOpen] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
 
@@ -20,7 +25,6 @@ const Header = ({ selectedDate, changeDate }) => {
       <ToggleList
         open={open}
         clickHandler={clickHandler}
-        selectedDate={selectedDate}
         changeDate={changeDate}
         setShowBadge={setShowBadge}
       />

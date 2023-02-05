@@ -1,29 +1,33 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, FormEvent } from "react";
 import styled from "styled-components";
 import { BsPlusCircle } from "react-icons/bs";
-import { todoCtx } from "./../store/ContextProvider";
+import { todoCtx } from "../store/ContextProvider";
 
-const TodoForm = ({ selectedDate }) => {
+interface TodoFormProps {
+  selectedDate: string;
+}
+
+const TodoForm = ({ selectedDate }: TodoFormProps) => {
   const [valid, setValid] = useState(true);
   const { addTodo } = useContext(todoCtx);
   const [active, setActive] = useState(false);
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const checkValidation = (text) => {
+  const checkValidation = (text: string) => {
     return text.length === 0 ? false : true;
   };
 
-  const clickAddButton = (e) => {
+  const clickAddButton = () => {
     setActive(!active);
   };
-  const submitHandler = (event) => {
+  const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    if (!checkValidation(inputRef.current.value)) {
+    if (!checkValidation(inputRef.current!.value)) {
       setValid(false);
       return;
     }
-    addTodo(inputRef.current.value, selectedDate);
-    inputRef.current.value = "";
+    addTodo(inputRef.current!.value, selectedDate);
+    inputRef.current!.value = "";
     setValid(true);
   };
   return (
@@ -45,7 +49,7 @@ const TodoForm = ({ selectedDate }) => {
 
 export default TodoForm;
 
-const Input = styled.input`
+const Input = styled.input<{ valid: boolean }>`
   width: 70%;
   height: 30px;
   border-color: ${({ valid }) => (valid ? "black" : "red")};
@@ -54,7 +58,7 @@ const Input = styled.input`
   font-size: 20px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ active: boolean }>`
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -66,7 +70,7 @@ const Button = styled.button`
   }
 `;
 
-const Form = styled.form`
+const Form = styled.form<{ active: boolean }>`
   overflow: hidden;
   height: ${({ active }) => (active ? "80px" : 0)};
   transition: all 0.5s ease-in-out;

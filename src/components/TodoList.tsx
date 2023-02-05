@@ -3,14 +3,22 @@ import TodoForm from "./TodoForm";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 import { todoCtx } from "../store/ContextProvider";
+import { Todo } from "../types/Todo";
 
-const TodoList = ({ selectedDate, changeDate }) => {
+interface TodoListProps {
+  selectedDate: string;
+  changeDate: (date: string) => void;
+}
+
+const TodoList = ({ selectedDate, changeDate }: TodoListProps) => {
   const isMounted = useRef(false);
   const { todos, initTodo } = useContext(todoCtx);
 
   useEffect(() => {
-    const savedTodos = JSON.parse(localStorage.getItem("todos"));
-    if (!savedTodos) return;
+    const savedTodos: Todo[] = JSON.parse(
+      localStorage.getItem("todos") || "{}"
+    );
+    // if (!savedTodos) return;
     initTodo(savedTodos);
   }, []);
 

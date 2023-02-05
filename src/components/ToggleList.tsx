@@ -1,16 +1,35 @@
 import styled from "styled-components";
 import { VscClose } from "react-icons/vsc";
-import { useContext, useState, useEffect } from "react";
-import { todoCtx } from "./../store/ContextProvider";
+import {
+  useContext,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { todoCtx } from "../store/ContextProvider";
+import { FinishList } from "../types/FinishList";
 
-const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
+interface ToggleListProps {
+  open: boolean;
+  clickHandler: () => void;
+  changeDate: (date: string) => void;
+  setShowBadge: Dispatch<SetStateAction<boolean>>;
+}
+
+const ToggleList = ({
+  open,
+  clickHandler,
+  changeDate,
+  setShowBadge,
+}: ToggleListProps) => {
   const { todos } = useContext(todoCtx);
-  const [lists, setLists] = useState([]);
+  const [lists, setLists] = useState<FinishList[]>([]);
 
   useEffect(() => {
     setLists(() => {
       const lists = todos
-        .reduce((acc, todo) => {
+        .reduce<FinishList[]>((acc, todo) => {
           const duplIndex = acc.findIndex(
             (accTodo) => accTodo.date === todo.date
           );
@@ -30,7 +49,9 @@ const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
           });
           return acc;
         }, [])
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+        .sort(
+          (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()
+        );
       return lists;
     });
   }, [todos]);
@@ -74,7 +95,7 @@ const ToggleList = ({ open, clickHandler, changeDate, setShowBadge }) => {
 
 export default ToggleList;
 
-const Container = styled.div`
+const Container = styled.div<{ open: boolean }>`
   color: black;
   font-size: 14px;
   width: 20%;
@@ -159,7 +180,7 @@ const Li = styled.li`
   }
 `;
 
-const Span = styled.span`
+const Span = styled.span<{ count: number }>`
   color: ${({ count }) => (count > 0 ? "red" : "black")};
   font-size: ${({ count }) => (count > 0 ? "18px" : "14px")};
 `;
