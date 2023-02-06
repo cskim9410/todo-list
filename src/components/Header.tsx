@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { CiBoxList } from "react-icons/ci";
 import { useState } from "react";
-import ToggleList from "./ToggleList";
+import FinishList from "./FinishList";
 
 interface HeaderProps {
   selectedDate: string;
@@ -22,7 +22,7 @@ const Header = ({ selectedDate, changeDate }: HeaderProps) => {
         <CiBoxList size="40" />
         {showBadge && <Badge />}
       </Button>
-      <ToggleList
+      <FinishList
         open={open}
         clickHandler={clickHandler}
         changeDate={changeDate}

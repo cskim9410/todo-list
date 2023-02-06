@@ -10,19 +10,19 @@ import {
 import { todoCtx } from "../store/ContextProvider";
 import { FinishList } from "../types/FinishList";
 
-interface ToggleListProps {
+interface FinishListProps {
   open: boolean;
   clickHandler: () => void;
   changeDate: (date: string) => void;
   setShowBadge: Dispatch<SetStateAction<boolean>>;
 }
 
-const ToggleList = ({
+const FinishList = ({
   open,
   clickHandler,
   changeDate,
   setShowBadge,
-}: ToggleListProps) => {
+}: FinishListProps) => {
   const { todos } = useContext(todoCtx);
   const [lists, setLists] = useState<FinishList[]>([]);
 
@@ -93,7 +93,7 @@ const ToggleList = ({
   );
 };
 
-export default ToggleList;
+export default FinishList;
 
 const Container = styled.div<{ open: boolean }>`
   color: black;
