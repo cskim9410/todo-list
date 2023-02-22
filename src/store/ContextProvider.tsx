@@ -1,7 +1,7 @@
 import { createContext, useState, ReactNode } from "react";
 import { Todo } from "../types/Todo";
 
-export const todoCtx = createContext({
+export const TodoCtx = createContext({
   todos: [] as Todo[],
   addTodo: (text: string, date: string) => {},
   deleteTodo: (id: number) => {},
@@ -13,13 +13,13 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const initTodo = (todos: Todo[]) => {
-    setTodos(todos);
+    setTodos([...todos]);
   };
 
   const addTodo = (text: string, date: string) => {
-    setTodos((state) => {
+    setTodos(() => {
       return [
-        ...state,
+        ...todos,
         {
           id: new Date().getTime(),
           date: `${date}`,
@@ -47,7 +47,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
     });
   };
   return (
-    <todoCtx.Provider
+    <TodoCtx.Provider
       value={{
         todos,
         addTodo,
@@ -57,7 +57,7 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </todoCtx.Provider>
+    </TodoCtx.Provider>
   );
 };
 

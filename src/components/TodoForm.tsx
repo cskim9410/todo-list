@@ -1,7 +1,7 @@
 import { useContext, useRef, useState, FormEvent } from "react";
 import styled from "styled-components";
 import { BsPlusCircle } from "react-icons/bs";
-import { todoCtx } from "../store/ContextProvider";
+import { TodoCtx } from "../store/ContextProvider";
 
 interface TodoFormProps {
   selectedDate: string;
@@ -9,7 +9,7 @@ interface TodoFormProps {
 
 const TodoForm = ({ selectedDate }: TodoFormProps) => {
   const [valid, setValid] = useState(true);
-  const { addTodo } = useContext(todoCtx);
+  const { addTodo } = useContext(TodoCtx);
   const [active, setActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,7 +31,7 @@ const TodoForm = ({ selectedDate }: TodoFormProps) => {
     setValid(true);
   };
   return (
-    <div>
+    <>
       <Form active={active} onSubmit={submitHandler}>
         <Input
           valid={valid}
@@ -43,7 +43,7 @@ const TodoForm = ({ selectedDate }: TodoFormProps) => {
       <Button active={active} onClick={clickAddButton}>
         <BsPlusCircle size="40" />
       </Button>
-    </div>
+    </>
   );
 };
 

@@ -2,7 +2,7 @@ import { useRef, useEffect, useContext } from "react";
 import TodoForm from "./TodoForm";
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
-import { todoCtx } from "../store/ContextProvider";
+import { TodoCtx } from "../store/ContextProvider";
 import { Todo } from "../types/Todo";
 
 interface TodoListProps {
@@ -12,14 +12,14 @@ interface TodoListProps {
 
 const TodoList = ({ selectedDate, changeDate }: TodoListProps) => {
   const isMounted = useRef(false);
-  const { todos, initTodo } = useContext(todoCtx);
+  const { todos, initTodo } = useContext(TodoCtx);
 
   useEffect(() => {
-    const savedTodos: Todo[] = JSON.parse(
-      localStorage.getItem("todos") || "{}"
-    );
-    // if (!savedTodos) return;
-    initTodo(savedTodos);
+    const storedTodo = localStorage.getItem("todos");
+    if (storedTodo) {
+      const savedTodos: Todo[] = JSON.parse(storedTodo);
+      initTodo(savedTodos);
+    }
   }, []);
 
   useEffect(() => {

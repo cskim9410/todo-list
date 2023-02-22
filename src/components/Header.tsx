@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { CiBoxList } from "react-icons/ci";
 import { useState } from "react";
-import FinishList from "./FinishList";
+import FinishToggle from "./FinishToggle";
 
 interface HeaderProps {
-  selectedDate: string;
   changeDate: (date: string) => void;
 }
 
-const Header = ({ selectedDate, changeDate }: HeaderProps) => {
+const Header = ({ changeDate }: HeaderProps) => {
   const [open, setOpen] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
 
@@ -22,7 +21,7 @@ const Header = ({ selectedDate, changeDate }: HeaderProps) => {
         <CiBoxList size="40" />
         {showBadge && <Badge />}
       </Button>
-      <FinishList
+      <FinishToggle
         open={open}
         clickHandler={clickHandler}
         changeDate={changeDate}

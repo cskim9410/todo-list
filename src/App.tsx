@@ -19,7 +19,7 @@ function App() {
   return (
     <ContextProvider>
       <Container>
-        <Header selectedDate={selectedDate} changeDate={changeDate} />
+        <Header changeDate={changeDate} />
         <TodoList selectedDate={selectedDate} changeDate={changeDate} />
       </Container>
     </ContextProvider>

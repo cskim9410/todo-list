@@ -7,7 +7,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { todoCtx } from "../store/ContextProvider";
+import { TodoCtx } from "../store/ContextProvider";
 import { FinishList } from "../types/FinishList";
 
 interface FinishListProps {
@@ -17,13 +17,13 @@ interface FinishListProps {
   setShowBadge: Dispatch<SetStateAction<boolean>>;
 }
 
-const FinishList = ({
+const FinishToggle = ({
   open,
   clickHandler,
   changeDate,
   setShowBadge,
 }: FinishListProps) => {
-  const { todos } = useContext(todoCtx);
+  const { todos } = useContext(TodoCtx);
   const [lists, setLists] = useState<FinishList[]>([]);
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const FinishList = ({
   );
 };
 
-export default FinishList;
+export default FinishToggle;
 
 const Container = styled.div<{ open: boolean }>`
   color: black;
